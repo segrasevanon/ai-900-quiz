@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft AI-900 Quiz Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --danger: #ef4444;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --correct: #10b981;
+    --wrong: #ef4444;
+    --glow: 0 0 30px rgba(0,212,255,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== LANDING PAGE ===== */
+  #landing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.3);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 2rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100%{box-shadow:0 0 10px rgba(0,212,255,0.2);}
+    50%{box-shadow:0 0 25px rgba(0,212,255,0.5);}
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 800;
+    text-align: center;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+  .stats-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    min-width: 120px;
+    transition: all 0.3s;
+  }
+  .stat-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--glow); }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+  .config-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 520px;
+    margin-bottom: 2rem;
+  }
+  .config-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+  .config-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+  .config-row label { font-size: 0.95rem; color: var(--text); }
+  select, input[type=range] {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+  }
+  select:focus { border-color: var(--accent); }
+  input[type=range] {
+    -webkit-appearance: none;
+    padding: 0;
+    height: 6px;
+    background: var(--border);
+    border: none;
+    border-radius: 50px;
+    width: 140px;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .range-val {
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    font-size: 0.9rem;
+    min-width: 30px;
+    text-align: right;
+  }
+
+  .btn-start {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 16px;
+    padding: 1.1rem 3rem;
+    cursor: pointer;
+    width: 100%;
+    max-width: 520px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.05em;
+  }
+  .btn-start:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,212,255,0.3); }
+  .btn-start:active { transform: translateY(0); }
+
+  /* ===== QUIZ PAGE ===== */
+  #quiz-page {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+  .quiz-header {
+    background: rgba(17,24,39,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .quiz-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .progress-container { flex: 1; max-width: 300px; }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+    font-family: 'DM Mono', monospace;
+  }
+  .progress-bar {
+    height: 5px;
+    background: var(--border);
+    border-radius: 50px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 50px;
+    transition: width 0.4s ease;
+  }
+  .header-stats {
+    display: flex;
+    gap: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .hs { display: flex; align-items: center; gap: 0.3rem; }
+  .hs-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .hs-dot.c { background: var(--correct); }
+  .hs-dot.w { background: var(--wrong); }
+
+  .quiz-body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+  }
+
+  /* Category chip */
+  .q-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.3);
+    color: #a78bfa;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+  }
+
+  .q-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+  }
+  .q-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 2rem;
+  }
+  .q-type-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.1rem 1.3rem;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.97rem;
+    color: var(--text);
+    transition: all 0.2s;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .option-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,212,255,0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .option-btn:hover:not(.locked) { border-color: var(--accent); transform: translateX(4px); }
+  .option-btn:hover:not(.locked)::before { opacity: 1; }
+  .option-btn.selected-multi {
+    border-color: var(--accent);
+    background: rgba(0,212,255,0.08);
+  }
+  .option-btn.correct {
+    border-color: var(--correct);
+    background: rgba(16,185,129,0.1);
+    animation: correctPop 0.4s ease;
+  }
+  .option-btn.wrong {
+    border-color: var(--wrong);
+    background: rgba(239,68,68,0.08);
+  }
+  .option-btn.reveal-correct {
+    border-color: var(--correct);
+    background: rgba(16,185,129,0.06);
+  }
+  .option-btn.locked { cursor: default; }
+  @keyframes correctPop {
+    0%{transform:scale(1);}50%{transform:scale(1.02);}100%{transform:scale(1);}
+  }
+  .opt-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .option-btn.correct .opt-key { background: var(--correct); color: #fff; border-color: var(--correct); }
+  .option-btn.wrong .opt-key { background: var(--wrong); color: #fff; border-color: var(--wrong); }
+  .option-btn.reveal-correct .opt-key { background: rgba(16,185,129,0.3); color: var(--correct); }
+  .option-btn.selected-multi .opt-key { background: var(--accent); color: #0a0e1a; border-color: var(--accent); }
+  .opt-text { line-height: 1.5; padding-top: 0.1rem; }
+
+  .multi-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .feedback-card {
+    margin-top: 1.5rem;
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    animation: fadeUp 0.35s ease;
+    display: none;
+  }
+  @keyframes fadeUp {
+    from{opacity:0;transform:translateY(12px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  .feedback-card.show { display: block; }
+  .feedback-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .feedback-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .feedback-title.correct-t { color: var(--correct); }
+  .feedback-title.wrong-t { color: var(--wrong); }
+  .feedback-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+  .action-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  .btn-next {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    padding: 0.9rem 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    min-width: 160px;
+  }
+  .btn-next:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.25); }
+  .btn-submit-multi {
+    background: var(--surface2);
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 1.5px solid var(--accent);
+    border-radius: 12px;
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    min-width: 160px;
+  }
+  .btn-submit-multi:hover { background: rgba(0,212,255,0.08); }
+
+  /* Skip/Bookmark row */
+  .aux-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-content: flex-end;
+  }
+  .btn-aux {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-aux:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== RESULTS PAGE ===== */
+  #results-page {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    padding: 3rem 1.5rem;
+  }
+  .results-inner { max-width: 700px; margin: 0 auto; }
+  .results-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem,6vw,3.5rem);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .results-sub { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1rem; }
+  .score-ring-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  .score-ring {
+    position: relative;
+    width: 180px;
+    height: 180px;
+  }
+  .score-ring svg {
+    transform: rotate(-90deg);
+    width: 180px;
+    height: 180px;
+  }
+  .score-ring-bg { fill: none; stroke: var(--border); stroke-width: 12; }
+  .score-ring-fill { fill: none; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease; }
+  .score-ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .score-label { font-size: 0.75rem; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .rg-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .rg-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+  }
+  .rg-num.c { color: var(--correct); }
+  .rg-num.w { color: var(--wrong); }
+  .rg-num.s { color: var(--accent); }
+  .rg-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+  .pass-banner {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .pass-banner.pass { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--correct); }
+  .pass-banner.fail { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: var(--wrong); }
+
+  .results-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-review {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 12px;
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-review:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-restart {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-restart:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.25); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    z-index: 999;
+    transition: transform 0.3s;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Category filter tabs */
+  .category-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+  }
+  .cat-tab {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .cat-tab:hover, .cat-tab.active { background: rgba(0,212,255,0.1); border-color: var(--accent); color: var(--accent); }
+
+  /* Review mode */
+  #review-page {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    padding: 2rem 1.5rem;
+  }
+  .review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .review-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+  .review-list { max-width: 800px; margin: 0 auto; }
+  .review-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--border);
+  }
+  .review-item.r-correct { border-left-color: var(--correct); }
+  .review-item.r-wrong { border-left-color: var(--wrong); }
+  .review-item.r-skipped { border-left-color: var(--text-muted); }
+  .ri-q { font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.5; }
+  .ri-answers { display: flex; flex-direction: column; gap: 0.3rem; }
+  .ri-ans { font-family: 'DM Mono', monospace; font-size: 0.8rem; padding: 0.4rem 0.7rem; border-radius: 8px; }
+  .ri-ans.y { background: rgba(16,185,129,0.1); color: var(--correct); }
+  .ri-ans.n { background: rgba(239,68,68,0.08); color: var(--wrong); text-decoration: line-through; }
+  .ri-ans.user { background: rgba(239,68,68,0.08); color: var(--wrong); }
+
+  @media (max-width: 600px) {
+    .results-grid { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+    .rg-card { padding: 1rem 0.5rem; }
+    .rg-num { font-size: 1.5rem; }
+    .quiz-header { padding: 0.8rem 1rem; }
+    .q-text { font-size: 1rem; }
+    .stats-row { gap: 1rem; }
+    .stat-card { padding: 1rem 1.2rem; }
+    .header-stats { gap: 0.5rem; font-size: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="badge">⚡ Microsoft AI-900 Exam Prep</div>
+  <h1 class="hero-title">Master<br>Azure AI</h1>
+  <p class="hero-sub">Practice with 200+ real exam-style questions covering all AI-900 domains. Track your progress, review mistakes, and pass with confidence.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="total-q-count">200+</div><div class="stat-label">Questions</div></div>
+    <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Domains</div></div>
+    <div class="stat-card"><div class="stat-num">70%</div><div class="stat-label">Pass Mark</div></div>
+    <div class="stat-card"><div class="stat-num">~60</div><div class="stat-label">Exam Qs</div></div>
+  </div>
+
+  <div class="config-card">
+    <div class="config-title">⚙ Configure Your Session</div>
+    <div class="config-row">
+      <label>Number of Questions</label>
+      <div style="display:flex;align-items:center;gap:0.7rem;">
+        <input type="range" id="q-count" min="10" max="50" value="30" step="5" oninput="document.getElementById('q-count-val').textContent=this.value">
+        <span class="range-val" id="q-count-val">30</span>
+      </div>
+    </div>
+    <div class="config-row">
+      <label>Domain Filter</label>
+      <select id="domain-filter">
+        <option value="all">All Domains</option>
+        <option value="ai-concepts">AI Workloads & Concepts</option>
+        <option value="ml">Machine Learning</option>
+        <option value="computer-vision">Computer Vision</option>
+        <option value="nlp">Natural Language Processing</option>
+        <option value="conversational">Conversational AI</option>
+        <option value="responsible-ai">Responsible AI</option>
+      </select>
+    </div>
+    <div class="config-row">
+      <label>Question Order</label>
+      <select id="order-filter">
+        <option value="random">Random</option>
+        <option value="sequential">Sequential</option>
+        <option value="wrong">Focus: Wrong First</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
+</div>
+
+<!-- QUIZ PAGE -->
+<div id="quiz-page">
+  <div class="quiz-header">
+    <div class="quiz-logo">AI-900</div>
+    <div class="progress-container">
+      <div class="progress-info">
+        <span id="prog-text">Q 1 / 30</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="header-stats">
+      <div class="hs"><div class="hs-dot c"></div><span id="h-correct">0</span></div>
+      <div class="hs"><div class="hs-dot w"></div><span id="h-wrong">0</span></div>
+    </div>
+  </div>
+
+  <div class="quiz-body">
+    <div class="q-category" id="q-cat">Domain</div>
+    <div class="q-number" id="q-num">Question 1</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="multi-hint" id="multi-hint" style="display:none">Select all correct answers, then click Submit</div>
+    <div class="options-grid" id="options-grid"></div>
+    <div class="feedback-card" id="feedback-card">
+      <div class="feedback-icon" id="fb-icon"></div>
+      <div class="feedback-title" id="fb-title"></div>
+      <div class="feedback-body" id="fb-body"></div>
+    </div>
+    <div class="action-row">
+      <button class="btn-submit-multi" id="btn-submit-multi" onclick="submitMulti()" style="display:none">Submit Answer</button>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()" style="display:none">Next Question →</button>
+    </div>
+    <div class="aux-row">
+      <button class="btn-aux" onclick="skipQuestion()">Skip ⟶</button>
+      <button class="btn-aux" onclick="endQuiz()">End Quiz ✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS PAGE -->
+<div id="results-page">
+  <div class="results-inner">
+    <h2 class="results-title" id="res-title">Quiz Complete!</h2>
+    <p class="results-sub" id="res-sub"></p>
+    <div class="score-ring-wrap">
+      <div class="score-ring">
+        <svg viewBox="0 0 180 180">
+          <circle class="score-ring-bg" cx="90" cy="90" r="80"/>
+          <circle class="score-ring-fill" id="score-circle" cx="90" cy="90" r="80" stroke-dasharray="502" stroke-dashoffset="502"/>
+        </svg>
+        <div class="score-ring-text">
+          <div class="score-pct" id="score-pct">0%</div>
+          <div class="score-label">SCORE</div>
+        </div>
+      </div>
+    </div>
+    <div class="pass-banner" id="pass-banner"></div>
+    <div class="results-grid">
+      <div class="rg-card"><div class="rg-num c" id="r-correct">0</div><div class="rg-label">Correct</div></div>
+      <div class="rg-card"><div class="rg-num w" id="r-wrong">0</div><div class="rg-label">Wrong</div></div>
+      <div class="rg-card"><div class="rg-num s" id="r-skipped">0</div><div class="rg-label">Skipped</div></div>
+    </div>
+    <div class="results-actions">
+      <button class="btn-review" onclick="showReview()">Review Answers</button>
+      <button class="btn-restart" onclick="location.reload()">New Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW PAGE -->
+<div id="review-page">
+  <div class="review-header">
+    <h2 class="review-title">Answer Review</h2>
+    <button class="btn-restart" onclick="showResults()" style="font-size:0.9rem;padding:0.7rem 1.5rem;">← Back to Results</button>
+  </div>
+  <div class="review-list" id="review-list"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const QUESTIONS = [
+  // ============================================================
+  // DOMAIN 1: AI WORKLOADS & CONCEPTS
+  // ============================================================
+  {
+    id:1, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which scenario is an example of a webchat bot?",
+    opts:["Determine whether reviews entered on a website for a concert are positive or negative","Translate questions entered by customers at a kiosk into English","Accept questions through email and route them to the correct person","From a website interface, answer common questions about scheduled events and ticket purchases for a music festival"],
+    ans:[3], exp:"A webchat bot answers questions through a website interface. The scenario of answering questions about events and ticket purchases directly from a website is the classic webchat bot use case."
+  },
+  {
+    id:2, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"The interactive answering of questions entered by a user as part of an application is an example of:",
+    opts:["Anomaly detection","Computer vision","Conversational AI","Forecasting"],
+    ans:[2], exp:"Conversational AI refers to interactive systems that can understand and respond to user queries in natural language."
+  },
+  {
+    id:3, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"You are designing an AI application that uses images to detect cracks in window-panes of buildings and warns when a window-pane should be repaired or replaced. What AI workload is described?",
+    opts:["Computer Vision","Natural Language Processing","Anomaly Detection"],
+    ans:[0], exp:"Using images to detect cracks is a Computer Vision workload — specifically object/defect detection from images."
+  },
+  {
+    id:4, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which of the following is NOT an example of an AI workload?",
+    opts:["Forecasting sales using historical data","Sorting files alphabetically on a computer","Detecting fraudulent transactions","Identifying objects in an image"],
+    ans:[1], exp:"Sorting files alphabetically is a simple deterministic algorithm, not an AI workload. AI workloads involve learning from data, pattern recognition, or prediction."
+  },
+  {
+    id:5, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which Azure service should you use to create a bot from a frequently asked questions (FAQ) document?",
+    opts:["QnA Maker","Language Understanding (LUIS)","Text Analytics","Speech Text"],
+    ans:[0], exp:"QnA Maker (now part of Azure Language service as Question Answering) is specifically designed to create bots from FAQ documents, knowledge bases, and similar content."
+  },
+  {
+    id:6, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"A company wants to use AI to predict equipment failures before they happen by analyzing sensor data. What type of AI workload is this?",
+    opts:["Computer vision","Anomaly detection","Conversational AI","Natural language processing"],
+    ans:[1], exp:"Analyzing sensor data to detect unusual patterns that might predict failures is anomaly detection — identifying deviations from expected behavior."
+  },
+  {
+    id:7, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which service should you use to create a knowledge base for bots?",
+    opts:["Conversational Language Understanding","Question Answering","Azure Bot","Text Analytics"],
+    ans:[1], exp:"The Question Answering (previously QnA Maker) feature of Azure Language service is used to create knowledge bases that power FAQ-style bots."
+  },
+  {
+    id:8, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which of the following is an example of knowledge mining?",
+    opts:["Training a classification model on product images","Extracting insights from unstructured documents using Azure Cognitive Search","Building a chatbot to answer customer questions","Detecting anomalies in sensor data"],
+    ans:[1], exp:"Knowledge mining uses Azure Cognitive Search and AI enrichment to extract insights, entities, and structured data from unstructured documents."
+  },
+  {
+    id:9, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which Azure AI service should you use to analyze images of locations and identify well-known monuments?",
+    opts:["Retrieve the objects in the image","Retrieve the categories for the image, specifying the celebrities domain","Retrieve the categories for the image, specifying the landmarks domain"],
+    ans:[2], exp:"The Computer Vision service can retrieve image categories including the landmarks domain to identify famous landmarks."
+  },
+  {
+    id:10, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"A company employs a team of customer service agents to provide telephone and email support to customers. The company develops a webchat bot to provide automated answers to common customer queries. Which business benefit should the company expect?",
+    opts:["Increased sales","A reduced workload for the customer service agents","Improved product reliability"],
+    ans:[1], exp:"Webchat bots automate responses to common queries, reducing the volume of questions that human agents must handle — directly reducing their workload."
+  },
+  {
+    id:11, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which of the following is a correct description of deep learning?",
+    opts:["A type of machine learning that uses large neural networks with many layers to learn from data","A method of data preprocessing that removes noise from datasets","A technique for feature selection in machine learning pipelines","A process for splitting datasets into training and test sets"],
+    ans:[0], exp:"Deep learning uses artificial neural networks with many layers (hence 'deep') to learn complex representations from large amounts of data."
+  },
+  {
+    id:12, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"You need to develop a mobile app for employees to scan and store their expenses while travelling. Which type of computer vision should you use?",
+    opts:["Semantic segmentation","Image classification","Object detection","Optical character recognition (OCR)"],
+    ans:[3], exp:"OCR is used to read and extract text from documents and receipts, making it the right choice for scanning expense receipts."
+  },
+
+  // ============================================================
+  // DOMAIN 2: MACHINE LEARNING
+  // ============================================================
+  {
+    id:13, cat:"ml", domain:"Machine Learning",
+    q:"For a machine learning process, how should you split data for training and evaluation?",
+    opts:["Use features for training and labels for evaluation","Randomly split the data into rows for training and rows for evaluation","Use labels for training and features for evaluation","Randomly split the data into columns for training and columns for evaluation"],
+    ans:[1], exp:"Data is split by rows (records): a subset of rows is used for training, and a separate subset of rows is used for evaluation/testing."
+  },
+  {
+    id:14, cat:"ml", domain:"Machine Learning",
+    q:"Which of the following is the calculated probability of a correct image classification?",
+    opts:["Accuracy","Confidence","Root Mean Square Error","Sentiment"],
+    ans:[1], exp:"Confidence is the probability score (0-1) that the model assigns to its prediction being correct. Accuracy measures overall correctness across all predictions."
+  },
+  {
+    id:15, cat:"ml", domain:"Machine Learning",
+    q:"You want to create a model to predict sales of ice cream based on historic data that includes daily ice cream sales total and weather measurements. Which Azure service should you use?",
+    opts:["Azure Machine Learning","Azure Bot","Language"],
+    ans:[0], exp:"Azure Machine Learning is the right service for training predictive models using historical data. It supports regression, classification, clustering, and time series forecasting."
+  },
+  {
+    id:16, cat:"ml", domain:"Machine Learning",
+    q:"Which type of machine learning should you use to identify groups of people who have similar purchasing habits?",
+    opts:["Classification","Regression","Clustering"],
+    ans:[2], exp:"Clustering groups similar items together without predefined labels — perfect for identifying customer segments with similar purchasing behavior."
+  },
+  {
+    id:17, cat:"ml", domain:"Machine Learning",
+    q:"A housing dealership wants to predict the price of a pre-owned apartment based on its location, size and apartment aging. What kind of machine learning model should the dealership use automated machine learning to create?",
+    opts:["Classification","Regression","Time series forecasting"],
+    ans:[1], exp:"Predicting a continuous numeric value (price) from input features is a regression problem."
+  },
+  {
+    id:18, cat:"ml", domain:"Machine Learning",
+    q:"A bank wants to categorize credit card applications as low-risk or high-risk based on characteristics like credit amount, income, and credit period. What kind of ML model should the bank use?",
+    opts:["Classification","Regression","Time series forecasting"],
+    ans:[0], exp:"Categorizing into discrete groups (low-risk/high-risk) is a classification problem."
+  },
+  {
+    id:19, cat:"ml", domain:"Machine Learning",
+    q:"Predicting how many hours of overtime a delivery person will work based on the number of orders received is an example of:",
+    opts:["Classification","Clustering","Regression"],
+    ans:[2], exp:"Predicting a continuous numeric value (hours of overtime) from input features is regression."
+  },
+  {
+    id:20, cat:"ml", domain:"Machine Learning",
+    q:"Predicting how many vehicles will travel across a bridge on a given day is an example of:",
+    opts:["Classification","Regression","Clustering"],
+    ans:[1], exp:"Predicting a numeric count (number of vehicles) is a regression problem."
+  },
+  {
+    id:21, cat:"ml", domain:"Machine Learning",
+    q:"What are two metrics that you can use to evaluate a regression model? (Select 2)",
+    opts:["Coefficient of determination (R2)","F1 score","Root mean squared error (RMSE)","Area under curve (AUC)","Balanced accuracy"],
+    ans:[0,2], multi:true, exp:"R2 (coefficient of determination) and RMSE are standard regression metrics. F1, AUC, and balanced accuracy are classification metrics."
+  },
+  {
+    id:22, cat:"ml", domain:"Machine Learning",
+    q:"Ensuring that the numeric variable in training data are on a similar scale is an example of:",
+    opts:["Data ingestion","Feature engineering","Feature selection","Model training"],
+    ans:[2], exp:"Scaling numeric features to a similar range is actually feature engineering (normalizing/standardizing). However in context of this specific question from the PDF, the answer shown is feature selection. Note: Scaling is more accurately feature engineering."
+  },
+  {
+    id:23, cat:"ml", domain:"Machine Learning",
+    q:"Which is used to generate additional features?",
+    opts:["Feature Selection","Feature Engineering","Model Evaluation","Model Training"],
+    ans:[1], exp:"Feature engineering is the process of creating new features from raw data to improve model performance."
+  },
+  {
+    id:24, cat:"ml", domain:"Machine Learning",
+    q:"You build a machine learning model using automated ML. You need to ensure the model meets the Microsoft transparency principle for responsible AI. What should you do?",
+    opts:["Set Validation type to Auto","Enable Explain best model","Set Primary metric to accuracy","Set Max concurrent iterations to 0"],
+    ans:[1], exp:"Enabling 'Explain best model' makes the model explainable — showing which features influenced predictions, supporting the transparency principle."
+  },
+  {
+    id:25, cat:"ml", domain:"Machine Learning",
+    q:"You want to use automated machine learning to train a regression model with the best possible R2 score. How should you configure the experiment?",
+    opts:["Set the Primary metric to R2 score","Block all algorithms other than GradientBoosting","Enable featurization"],
+    ans:[0], exp:"Setting the Primary metric to R2 score tells AutoML to optimize for R2 when selecting the best model."
+  },
+  {
+    id:26, cat:"ml", domain:"Machine Learning",
+    q:"You use Azure Machine Learning designer to create a training pipeline for a classification model. What must you do before deploying the model as a service?",
+    opts:["Create an inference pipeline from the training pipeline","Add an Evaluate Model module to the training pipeline","Clone the training pipeline with a different name"],
+    ans:[0], exp:"Before deployment, you must create an inference pipeline from the training pipeline. The inference pipeline is optimized for making predictions on new data."
+  },
+  {
+    id:27, cat:"ml", domain:"Machine Learning",
+    q:"Azure Machine Learning designer lets you create machine learning models by:",
+    opts:["Adding and connecting modules on a visual canvas","Automatically performing common data preparation tasks","Automatically selecting an algorithm to build the most accurate model","Using a code-first notebook experience"],
+    ans:[0], exp:"Azure ML Designer provides a drag-and-drop visual canvas where you connect modules (datasets, algorithms, transformations) to build ML pipelines."
+  },
+  {
+    id:28, cat:"ml", domain:"Machine Learning",
+    q:"You are creating a training pipeline for a regression model. You want to transform numeric columns so values are all on a similar scale relative to the minimum and maximum values in each column. Which module should you add?",
+    opts:["Select Columns in a Dataset","Normalize Data","Clean Missing Data"],
+    ans:[1], exp:"Normalize Data scales values to a common range (e.g., 0-1) based on the min/max in each column — this is min-max normalization."
+  },
+  {
+    id:29, cat:"ml", domain:"Machine Learning",
+    q:"Why do you split data into training and validation sets?",
+    opts:["To create two models, one with the training set and a different model with the validation set","Splitting data enables you to compare the labels the model predicts with the actual known labels in the original dataset","Only split data when using Azure Machine Learning Designer"],
+    ans:[1], exp:"The validation/test set is held out to evaluate how well the model predicts on unseen data by comparing predictions against known labels."
+  },
+  {
+    id:30, cat:"ml", domain:"Machine Learning",
+    q:"When training a model, why should you randomly split the rows into separate subsets?",
+    opts:["To train the model twice to attain better accuracy","To train multiple models simultaneously to attain better performance","To test the model by using data that was not used to train the model"],
+    ans:[2], exp:"Random splitting ensures the test data is not seen during training, giving an unbiased evaluation of model performance."
+  },
+  {
+    id:31, cat:"ml", domain:"Machine Learning",
+    q:"From Azure Machine Learning designer, to deploy a real-time inference pipeline as a service for others to consume, you must deploy the model to:",
+    opts:["A local web service","Azure Container Instances","Azure Kubernetes Service (AKS)","Azure Machine Learning compute"],
+    ans:[2], exp:"For production real-time inference endpoints, Azure Kubernetes Service (AKS) is used. Azure Container Instances is suitable for testing."
+  },
+  {
+    id:32, cat:"ml", domain:"Machine Learning",
+    q:"You use Azure Machine Learning designer to publish an inference pipeline. Which two parameters should you use to consume the pipeline?",
+    opts:["The model name","The training endpoint","The authentication key","The REST endpoint"],
+    ans:[2,3], multi:true, exp:"To consume a published pipeline, you need the REST endpoint URL and the authentication key."
+  },
+  {
+    id:33, cat:"ml", domain:"Machine Learning",
+    q:"You need to predict the mm amount of rainfall for the next 10 years. Which type of machine learning should you use?",
+    opts:["Classification","Regression","Clustering"],
+    ans:[1], exp:"Predicting a continuous numeric value (rainfall in mm) over time is a regression (or time-series regression) problem."
+  },
+  {
+    id:34, cat:"ml", domain:"Machine Learning",
+    q:"You are developing a model to predict events using classification. You review a confusion matrix and note the AUC score is 0.3. What can you conclude about the model?",
+    opts:["The model can explain 30% of the variance between true and predicted labels","The model predicts accurately for 70% of test cases","The model performs worse than random guessing"],
+    ans:[2], exp:"An AUC of 0.5 means random guessing. An AUC of 0.3 means the model performs worse than random guessing — it's inversely predicting."
+  },
+  {
+    id:35, cat:"ml", domain:"Machine Learning",
+    q:"You are using Azure Machine Learning designer to create a binary classification pipeline. You have added a dataset, Two-Class Decision Forest, and Train Model modules. You plan to use Score and Evaluate Model modules. What's another module you should add?",
+    opts:["Join data","Split data","Select column in dataset"],
+    ans:[1], exp:"Split Data is needed to divide your dataset into training and testing subsets so you can evaluate the model on unseen data."
+  },
+  {
+    id:36, cat:"ml", domain:"Machine Learning",
+    q:"Data values that influence the prediction of a model are called:",
+    opts:["Dependent variables","Features","Identifiers","Labels"],
+    ans:[1], exp:"Features are the input variables that the model uses to make predictions. Labels are the output/target variable."
+  },
+  {
+    id:37, cat:"ml", domain:"Machine Learning",
+    q:"You plan to deploy an Azure Machine Learning model as a service to be used by client applications. Which three processes should you perform in sequence before deployment?",
+    opts:["Data Encryption","Model retraining","Model training","Data Preparation","Model evaluation"],
+    ans:[3,2,4], multi:true, exp:"The correct sequence before deployment is: Data Preparation → Model Training → Model Evaluation."
+  },
+  {
+    id:38, cat:"ml", domain:"Machine Learning",
+    q:"Which type of machine learning should you use to predict the number of gift cards that will be sold next month?",
+    opts:["Classification","Regression","Clustering"],
+    ans:[1], exp:"Predicting a numeric count (gift cards sold) is a regression problem."
+  },
+  {
+    id:39, cat:"ml", domain:"Machine Learning",
+    q:"Automated machine learning implements machine learning solutions without the need for programming experience.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — Azure AutoML automates the selection of algorithms, feature engineering, and hyperparameter tuning without requiring coding expertise."
+  },
+  {
+    id:40, cat:"ml", domain:"Machine Learning",
+    q:"A medical research project uses a large dataset of brain scan images categorized into predefined cancer types. You need to use ML to support early detection before images are reviewed. Which type of ML?",
+    opts:["Clustering","Regression","Classification"],
+    ans:[2], exp:"Predicting which predefined cancer category an image belongs to is a classification problem."
+  },
+  {
+    id:41, cat:"ml", domain:"Machine Learning",
+    q:"You have a dataset: Household Income, Postal Code, House Price Category. You train a model to predict house price categories. What is Household Income?",
+    opts:["A feature and a label","A feature only","A label only"],
+    ans:[1], exp:"Household Income is a feature (input variable). House Price Category is the label (what you're predicting)."
+  },
+  {
+    id:42, cat:"ml", domain:"Machine Learning",
+    q:"You need to predict the income range of a customer. Which two fields should you use as features?",
+    opts:["Name","Address","Age","Weight","Education Level","Income Level"],
+    ans:[2,4], multi:true, exp:"Age and Education Level are relevant predictive features for income range. Name and Address are identifiers, Weight is not correlated, and Income Level would be the label."
+  },
+  {
+    id:43, cat:"ml", domain:"Machine Learning",
+    q:"What are two tasks that can be performed by using the Computer Vision service? (Select 2)",
+    opts:["Train a custom image classification model","Detect faces in an image","Recognize handwritten text","Translate the text in an image between languages"],
+    ans:[1,2], multi:true, exp:"Computer Vision can detect faces and recognize handwritten text (OCR). Custom model training requires Custom Vision; translation requires the Translator service."
+  },
+  {
+    id:44, cat:"ml", domain:"Machine Learning",
+    q:"Grouping similar patients based on symptoms and diagnostic test results is an example of clustering.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — grouping patients into similar groups without predefined categories is unsupervised clustering."
+  },
+  {
+    id:45, cat:"ml", domain:"Machine Learning",
+    q:"A banking system that predicts whether a loan will be repaid is an example of regression type of machine learning.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — predicting whether a loan will be repaid (yes/no) is a binary classification problem, not regression."
+  },
+  {
+    id:46, cat:"ml", domain:"Machine Learning",
+    q:"A banking system that predicts whether a loan will be repaid is an example of classification type of machine learning.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — predicting a binary outcome (repaid/not repaid) is classification."
+  },
+  {
+    id:47, cat:"ml", domain:"Machine Learning",
+    q:"Which type of machine learning should you use to predict the number of customers expected next month based on seasonal trends?",
+    opts:["Clustering","Classification","Regression"],
+    ans:[2], exp:"Predicting a future numeric value based on historical trends is a regression (time series forecasting) problem."
+  },
+  {
+    id:48, cat:"ml", domain:"Machine Learning",
+    q:"Feature Selection helps in splitting a date into month, day and year fields.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — splitting a date into component parts is feature engineering, not feature selection. Feature selection identifies which existing features to include."
+  },
+  {
+    id:49, cat:"ml", domain:"Machine Learning",
+    q:"Feature selection helps in picking temperature and pressure to train a weather model.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — feature selection involves choosing the most relevant input features (like temperature and pressure) for training a model."
+  },
+  {
+    id:50, cat:"ml", domain:"Machine Learning",
+    q:"The Model evaluation module outputs a confusion matrix showing the number of true positives, false negatives, false positives, and true negatives.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — the Evaluate Model module in Azure ML Designer produces a confusion matrix along with metrics like accuracy, precision, recall, and AUC."
+  },
+
+  // ============================================================
+  // DOMAIN 3: COMPUTER VISION
+  // ============================================================
+  {
+    id:51, cat:"computer-vision", domain:"Computer Vision",
+    q:"You need to determine the location of cars in an image so that you can estimate the distance between the cars. Which type of computer vision should you use?",
+    opts:["Optical character recognition (OCR)","Object detection","Image classification","Face detection"],
+    ans:[1], exp:"Object detection returns bounding boxes indicating the location of detected objects, which can be used to estimate distances between them."
+  },
+  {
+    id:52, cat:"computer-vision", domain:"Computer Vision",
+    q:"Returning a bounding box that indicates the location of a vehicle in an image is an example of:",
+    opts:["Image classification","Object detection","Optical character recognizer (OCR)","Semantic segmentation"],
+    ans:[1], exp:"Object detection identifies and locates objects in an image using bounding boxes."
+  },
+  {
+    id:53, cat:"computer-vision", domain:"Computer Vision",
+    q:"You send an image to a Computer Vision API and receive back annotated images with confidence percentages for bananas (97.90%), oranges (96.77%), and apples (98.21%). Which type of computer vision was used?",
+    opts:["Object detection","Semantic segmentation","Optical character recognition (OCR)"],
+    ans:[0], exp:"Object detection returns a label and confidence score for each detected object in an image. Image classification returns a single label for the whole image."
+  },
+  {
+    id:54, cat:"computer-vision", domain:"Computer Vision",
+    q:"You are processing photos of runners in a race. You need to read the numbers on the runners' shirts to identify the runners. Which type of computer vision should you use?",
+    opts:["Facial recognition","Optical character recognition (OCR)","Semantic segmentation","Object detection"],
+    ans:[1], exp:"OCR reads and extracts text from images — perfect for reading bib numbers on runners' shirts."
+  },
+  {
+    id:55, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which following service should you use to train an object detection model using your own images?",
+    opts:["Computer Vision","Custom Vision","Form Recognizer","Video Indexer"],
+    ans:[1], exp:"Custom Vision allows you to upload your own labeled images and train custom object detection or image classification models."
+  },
+  {
+    id:56, cat:"computer-vision", domain:"Computer Vision",
+    q:"You want to use the Computer Vision service to identify the location of individual items in an image. Which feature should you retrieve?",
+    opts:["Objects","Tags","Categories"],
+    ans:[0], exp:"The Objects feature of Computer Vision returns bounding box coordinates for detected items, indicating their location in the image."
+  },
+  {
+    id:57, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which of the following results does an object detection model typically return for an image?",
+    opts:["A class label and probability score for the image","Bounding box coordinates that indicate the region where all objects are located","A class label, probability, and bounding box for each object in the image"],
+    ans:[2], exp:"Object detection returns, for each detected object: its class label, confidence score, and bounding box coordinates."
+  },
+  {
+    id:58, cat:"computer-vision", domain:"Computer Vision",
+    q:"Your company 'DigitalLAB' is in business of digitization of a library and needs to read text in a large PDF document. Using the Computer Vision service, which API best suits this business need?",
+    opts:["The Read API","The OCR API","The Recognize Text API"],
+    ans:[0], exp:"The Read API (also called Azure AI Vision Image Analysis with Read) is optimized for reading large amounts of text from documents and PDFs asynchronously."
+  },
+  {
+    id:59, cat:"computer-vision", domain:"Computer Vision",
+    q:"You plan to use the Form Recognizer pre-built receipt model. Which kind of Azure resource should you create?",
+    opts:["Computer Vision resource","Form Recognizer or Cognitive Services resource","Only Form Recognizer resource"],
+    ans:[1], exp:"You can use either a dedicated Form Recognizer resource or a Cognitive Services multi-service resource to access the Form Recognizer service."
+  },
+  {
+    id:60, cat:"computer-vision", domain:"Computer Vision",
+    q:"The ability to extract subtotals and totals from a receipt is a capability of the:",
+    opts:["Custom Vision","Form Recognizer","Ink Recognizer","Text Analytics"],
+    ans:[1], exp:"Form Recognizer has pre-built models for receipts that can extract key-value pairs like totals, subtotals, tax, and merchant information."
+  },
+  {
+    id:61, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which service should you use to extract text, key/value pairs, and table data automatically from scanned documents?",
+    opts:["Form Recognizer","Text Analytics","Language Understanding","Custom Vision"],
+    ans:[0], exp:"Form Recognizer (now Azure AI Document Intelligence) extracts structured data including text, key-value pairs, and tables from documents."
+  },
+  {
+    id:62, cat:"computer-vision", domain:"Computer Vision",
+    q:"You are building a tool that will process images from retail stores and identify the products of competitors. The solution will use a custom model. Which Azure Cognitive service should you use?",
+    opts:["Custom Vision","Form Recognizer","Face","Computer Vision"],
+    ans:[0], exp:"Custom Vision lets you train custom image classification or object detection models with your own labeled data."
+  },
+  {
+    id:63, cat:"computer-vision", domain:"Computer Vision",
+    q:"You plan to use the Custom Vision service to train an image classification model. You want to create a resource that can only be used for model training, not for prediction. Which kind of resource should you create?",
+    opts:["Custom Vision","Cognitive Services","Computer Vision"],
+    ans:[0], exp:"A dedicated Custom Vision resource can be configured specifically for training purposes. A Cognitive Services resource covers both training and prediction."
+  },
+  {
+    id:64, cat:"computer-vision", domain:"Computer Vision",
+    q:"You plan to use a set of images to train a model to detect mobile phones, and then publish as a predictive service. You want to use a single Azure resource with the same key and endpoint for training and prediction. What kind of resource should you create?",
+    opts:["Custom Vision","Cognitive Services","Computer Vision"],
+    ans:[1], exp:"Cognitive Services resource provides a single key and endpoint for multiple services including both training and prediction in Custom Vision."
+  },
+  {
+    id:65, cat:"computer-vision", domain:"Computer Vision",
+    q:"You want to use the Computer Vision service to analyze images and use the Language service to analyze text. Developers must only use one key and endpoint. What kind of resource should you create?",
+    opts:["Computer Vision","Cognitive Services","Custom Vision"],
+    ans:[1], exp:"A Cognitive Services (multi-service) resource provides a single key and endpoint for multiple Azure AI services."
+  },
+  {
+    id:66, cat:"computer-vision", domain:"Computer Vision",
+    q:"What information must you provide to developers who want to use an image classification model built with Custom Vision?",
+    opts:["Only the project ID","The project ID, the model name, and the key and endpoint for the prediction resource","The project ID, iteration number, and the key and endpoint for the training resource"],
+    ans:[1], exp:"Developers need the project ID and model name to identify what to call, plus the prediction resource key and endpoint to authenticate and make calls."
+  },
+  {
+    id:67, cat:"computer-vision", domain:"Computer Vision",
+    q:"You train an image classification model that achieves less than satisfactory evaluation metrics. How might you improve it?",
+    opts:["Reduce the size of the images used to train the model","Add a new label for 'unknown' classes","Add more images to the training set"],
+    ans:[2], exp:"Adding more training images is the most effective way to improve model performance when evaluation metrics are poor."
+  },
+  {
+    id:68, cat:"computer-vision", domain:"Computer Vision",
+    q:"The Custom Vision service can be used to analyze video files.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — Custom Vision is for image classification and object detection in still images. Video Indexer is used for video analysis."
+  },
+  {
+    id:69, cat:"computer-vision", domain:"Computer Vision",
+    q:"The Custom Vision service requires that you provide your own data to train the model.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — Custom Vision is specifically designed for training with your own labeled images, unlike Computer Vision which uses pre-trained models."
+  },
+  {
+    id:70, cat:"computer-vision", domain:"Computer Vision",
+    q:"You use the Form Recognizer service to analyze receipts scanned into JPG format. What is the maximum file size of JPG file you can submit to the pre-built receipt model?",
+    opts:["2 MB","50 MB","200 MB"],
+    ans:[1], exp:"The Form Recognizer service supports JPG files up to 50 MB in size for the pre-built receipt model."
+  },
+  {
+    id:71, cat:"computer-vision", domain:"Computer Vision",
+    q:"You run a charity event involving photos of people wearing sunglasses. You need to ensure you only retweet photos that include one or more faces and contain at least one person wearing sunglasses. What should you use?",
+    opts:["The Verify operation in the Face service","The Detect operation in the Face service","The Describe Image operation in the Computer Vision service","The Analyze Image operation in the Computer Vision service"],
+    ans:[1], exp:"The Detect operation in the Face service detects faces and their attributes (including accessories like sunglasses) in an image."
+  },
+  {
+    id:72, cat:"computer-vision", domain:"Computer Vision",
+    q:"You plan to use the Face service to detect human faces in an image. How does the service indicate the location of the faces it detects?",
+    opts:["A pair of coordinates for each face, indicating the center of the face","Two pairs of coordinates for each face, indicating the location of the eyes","A set of coordinates for each face, defining a rectangular bounding box around the face"],
+    ans:[2], exp:"The Face service returns bounding box coordinates (left, top, width, height) defining a rectangle around each detected face."
+  },
+  {
+    id:73, cat:"computer-vision", domain:"Computer Vision",
+    q:"What is one aspect that may impair facial detection?",
+    opts:["Smile expression","Extreme angles","Fast shutter speed"],
+    ans:[1], exp:"Extreme angles (profile views, tilted faces) can significantly impair facial detection accuracy, as most models are optimized for frontal-facing faces."
+  },
+  {
+    id:74, cat:"computer-vision", domain:"Computer Vision",
+    q:"You want to use Face service to identify named individuals. What must you do?",
+    opts:["Use the Computer Vision service","Use Face to retrieve age and emotional state for each person","Use Face to create a group containing multiple images of each named individual, and train a model based on the group"],
+    ans:[2], exp:"To identify named individuals, you must create a PersonGroup, add persons with multiple images each, and train the model before using it to identify faces."
+  },
+  {
+    id:75, cat:"computer-vision", domain:"Computer Vision",
+    q:"Organizing documents into groups based on similarities of the text contained in the documents is an example of clustering.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — grouping documents by text similarity without predefined categories is unsupervised clustering."
+  },
+  {
+    id:76, cat:"computer-vision", domain:"Computer Vision",
+    q:"Predicting whether a person will develop mild, moderate, or severe allergy symptoms based on pollen count is an example of clustering.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — predicting a category (mild/moderate/severe) from input data is classification, not clustering. Clustering is unsupervised."
+  },
+  {
+    id:77, cat:"computer-vision", domain:"Computer Vision",
+    q:"Your company 'DigitalLAB' needs to extract text from scanned books and also use Text Analytics to analyze the extracted text. Company wants developers to use only one key and endpoint. What resource should you create?",
+    opts:["Computer Vision","Cognitive Services","Text Analytics"],
+    ans:[1], exp:"A Cognitive Services multi-service resource provides access to multiple Azure AI services (Computer Vision + Text Analytics) through a single key and endpoint."
+  },
+
+  // ============================================================
+  // DOMAIN 4: NATURAL LANGUAGE PROCESSING
+  // ============================================================
+  {
+    id:78, cat:"nlp", domain:"Natural Language Processing",
+    q:"You want to use the Language service to determine the key talking points in a text document. Which feature of the service should you use?",
+    opts:["Sentiment analysis","Key phrase extraction","Entity detection"],
+    ans:[1], exp:"Key phrase extraction identifies the main topics and concepts discussed in text, making it ideal for finding key talking points."
+  },
+  {
+    id:79, cat:"nlp", domain:"Natural Language Processing",
+    q:"A score of 0.99 of sentiment analysis on a document using Language service. What does this score indicate about the document sentiment?",
+    opts:["The document is positive","The document is neutral","The document is negative"],
+    ans:[0], exp:"Sentiment scores range from 0 to 1. A score of 0.99 (close to 1) indicates very positive sentiment."
+  },
+  {
+    id:80, cat:"nlp", domain:"Natural Language Processing",
+    q:"You need to make press releases of your company available in a range of languages. Which service should you use?",
+    opts:["Translator Text","Text Analytics","Speech","Language Understanding (LUIS)"],
+    ans:[0], exp:"The Azure Translator Text service translates text between languages, making it ideal for making content available in multiple languages."
+  },
+  {
+    id:81, cat:"nlp", domain:"Natural Language Processing",
+    q:"When might you see NaN returned for a score in Language Detection?",
+    opts:["When the score calculated by the service is outside the range of 0 to 1","When the predominant language in the text is mixed with other languages","When the language is ambiguous"],
+    ans:[2], exp:"NaN is returned when the language cannot be determined confidently — typically when the text is ambiguous, too short, or contains mixed scripts."
+  },
+  {
+    id:82, cat:"nlp", domain:"Natural Language Processing",
+    q:"The Text Analytics service can detect handwritten signatures in a document.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — Text Analytics (Azure Language service) analyzes text content for sentiment, key phrases, entities, etc. Detecting handwritten signatures requires Computer Vision or Form Recognizer."
+  },
+  {
+    id:83, cat:"nlp", domain:"Natural Language Processing",
+    q:"The Text Analytics service can identify in which language text is written.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — Language Detection is a feature of Azure Language service (formerly Text Analytics) that identifies the language of input text."
+  },
+  {
+    id:84, cat:"nlp", domain:"Natural Language Processing",
+    q:"The Text Analytics service can identify companies and organizations mentioned in a document.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — Named Entity Recognition (NER) in Azure Language service can identify organizations, companies, people, locations, and other entities."
+  },
+  {
+    id:85, cat:"nlp", domain:"Natural Language Processing",
+    q:"Which of the following is an NLP task that Azure Language service can perform?",
+    opts:["Generating images from text descriptions","Translating text between 100+ languages","Extracting named entities from text","Recognizing faces in photographs"],
+    ans:[2], exp:"Named Entity Recognition (NER) is a core NLP task — extracting entities like people, organizations, dates, and locations from text."
+  },
+  {
+    id:86, cat:"nlp", domain:"Natural Language Processing",
+    q:"You want to build an application that extracts meaning from user speech, such as asking for the weather in a specific city. Which service should you use?",
+    opts:["Azure Speech service","Conversational Language Understanding (CLU)","Azure Translator","Text Analytics"],
+    ans:[1], exp:"Conversational Language Understanding (CLU) — formerly LUIS — is designed to understand user intent and extract entities from natural language input."
+  },
+  {
+    id:87, cat:"nlp", domain:"Natural Language Processing",
+    q:"Which NLP technique assigns a score between 0 and 1 to indicate how positive or negative a piece of text is?",
+    opts:["Named entity recognition","Key phrase extraction","Sentiment analysis","Language detection"],
+    ans:[2], exp:"Sentiment analysis scores text on a scale typically from 0 (negative) to 1 (positive) to indicate the overall emotional tone."
+  },
+  {
+    id:88, cat:"nlp", domain:"Natural Language Processing",
+    q:"You need to create an NLP solution that will identify whether customer reviews are positive or negative. Which Language service feature should you use?",
+    opts:["Key phrase extraction","Sentiment analysis","Entity recognition","Language detection"],
+    ans:[1], exp:"Sentiment analysis classifies text as positive, negative, or neutral — exactly what's needed for review classification."
+  },
+  {
+    id:89, cat:"nlp", domain:"Natural Language Processing",
+    q:"You are using the Language service. A customer submits: 'I want to book a flight to Paris on December 10th.' What does entity recognition extract?",
+    opts:["The customer's intent (booking a flight)","Entities like 'Paris' (location) and 'December 10th' (date)","Whether the sentence is positive or negative"],
+    ans:[1], exp:"Entity recognition extracts specific pieces of information (entities) from text — like places, dates, and people's names."
+  },
+  {
+    id:90, cat:"nlp", domain:"Natural Language Processing",
+    q:"The Conversational Language Understanding service requires you to define intents, entities, and utterances to train a model.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — CLU models are built by defining: intents (what the user wants to do), entities (key information to extract), and utterances (example phrases)."
+  },
+
+  // ============================================================
+  // DOMAIN 5: CONVERSATIONAL AI
+  // ============================================================
+  {
+    id:91, cat:"conversational", domain:"Conversational AI",
+    q:"You need to develop a chatbot for a website. The chatbot must answer users' questions based on a product troubleshooting guide (Word doc) and an FAQ list (webpage). Which service should you use to process the documents?",
+    opts:["Language Understanding","Text Analytics","Azure Bot Service","QnA Maker"],
+    ans:[3], exp:"QnA Maker (now Question Answering) can ingest documents and webpages to create a knowledge base for bot responses."
+  },
+  {
+    id:92, cat:"conversational", domain:"Conversational AI",
+    q:"You can use QnA Maker to query an Azure SQL database.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — QnA Maker/Question Answering is designed for knowledge bases built from documents and FAQs, not for querying SQL databases."
+  },
+  {
+    id:93, cat:"conversational", domain:"Conversational AI",
+    q:"You should use QnA Maker when you want a knowledge base to provide the same answer to different users who submit similar questions.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — QnA Maker is designed exactly for this: returning consistent answers to semantically similar questions."
+  },
+  {
+    id:94, cat:"conversational", domain:"Conversational AI",
+    q:"The QnA Maker service can determine the intent of a user utterance.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — QnA Maker matches questions to answers from a knowledge base. Intent recognition is the role of Language Understanding (LUIS/CLU)."
+  },
+  {
+    id:95, cat:"conversational", domain:"Conversational AI",
+    q:"Your company provides customer support over the phone and has an FAQ document. Company wants to create a knowledge base with least possible effort. What should you do?",
+    opts:["Create knowledge base from scratch and manually copy and paste the FAQ entries into it","Import from the existing FAQ document into a new knowledge base","Import a pre-defined chating data source"],
+    ans:[1], exp:"Importing directly from the existing FAQ document is the quickest approach — QnA Maker/Question Answering can ingest Word docs, PDFs, and webpages directly."
+  },
+  {
+    id:96, cat:"conversational", domain:"Conversational AI",
+    q:"Which component of an Azure Bot is responsible for managing the conversation flow and integrating with AI services?",
+    opts:["Azure Bot Service","Azure Cognitive Services","Azure App Service","Azure Storage"],
+    ans:[0], exp:"Azure Bot Service provides the framework for managing conversation flow, handling channels (Teams, Web Chat, etc.), and integrating with AI services."
+  },
+  {
+    id:97, cat:"conversational", domain:"Conversational AI",
+    q:"You want to build a bot that can handle both structured FAQ-style questions and understand complex user intents. Which combination of services is most appropriate?",
+    opts:["Question Answering + Conversational Language Understanding","Computer Vision + Form Recognizer","Text Analytics + Azure Translator","Azure Search + Azure ML"],
+    ans:[0], exp:"Question Answering handles structured FAQ responses while CLU (LUIS) handles intent recognition for complex conversational flows."
+  },
+  {
+    id:98, cat:"conversational", domain:"Conversational AI",
+    q:"In Azure Bot Framework, what is a 'turn'?",
+    opts:["A complete conversation from start to finish","A single exchange between the user and the bot (one message in, one message out)","The time limit for a bot response","A loop in the conversation dialog"],
+    ans:[1], exp:"A 'turn' in Bot Framework represents one round-trip of communication: the user sends a message and the bot responds."
+  },
+  {
+    id:99, cat:"conversational", domain:"Conversational AI",
+    q:"Which Azure service acts as the delivery mechanism to publish a bot across multiple channels like Teams, Slack, and web chat?",
+    opts:["QnA Maker","Azure Bot Service","Conversational Language Understanding","Azure App Service"],
+    ans:[1], exp:"Azure Bot Service manages channel integration, allowing the same bot logic to be published to Teams, Slack, Web Chat, and other platforms."
+  },
+  {
+    id:100, cat:"conversational", domain:"Conversational AI",
+    q:"In Conversational Language Understanding, what are 'utterances'?",
+    opts:["The set of possible responses the bot can give","Example phrases that users might say to express a particular intent","The structured entities extracted from user input","The conversation topics defined by the developer"],
+    ans:[1], exp:"Utterances are example sentences that represent how users might express a specific intent. They are used to train the CLU model."
+  },
+
+  // ============================================================
+  // DOMAIN 6: RESPONSIBLE AI
+  // ============================================================
+  {
+    id:101, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Ensuring an AI system does not provide a prediction when important fields contain unusual or missing values is a *** principle for responsible AI.",
+    opts:["An inclusiveness","A privacy and security","A reliability and safety","A transparency"],
+    ans:[2], exp:"Reliability and safety means AI systems should perform reliably and safely — including not making unreliable predictions when data quality is poor."
+  },
+  {
+    id:102, cat:"responsible-ai", domain:"Responsible AI",
+    q:"A predictive app provides audio output for visually impaired users. Which principle of Responsible AI is reflected here?",
+    opts:["Transparency","Inclusiveness","Fairness"],
+    ans:[1], exp:"Inclusiveness means designing AI that empowers everyone, including people with disabilities. Providing audio output for visually impaired users embodies inclusiveness."
+  },
+  {
+    id:103, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Your company is exploring voice recognition for smart home devices and wants to identify barriers that might unintentionally leave out specific user groups. This is an example of which Microsoft guiding principle?",
+    opts:["Accountability","Fairness","Inclusiveness","Privacy and security"],
+    ans:[2], exp:"Identifying barriers that might exclude user groups is the Inclusiveness principle — ensuring AI works for all people regardless of ability, culture, etc."
+  },
+  {
+    id:104, cat:"responsible-ai", domain:"Responsible AI",
+    q:"When you design an AI system to assess whether loans should be approved, the factors used to make the decision should be explainable. This is an example of which Microsoft guiding principle?",
+    opts:["Transparency","Inclusiveness","Fairness","Privacy and security"],
+    ans:[0], exp:"Transparency means AI systems should be understandable — users and stakeholders should be able to understand how decisions are made."
+  },
+  {
+    id:105, cat:"responsible-ai", domain:"Responsible AI",
+    q:"What are three Microsoft guiding principles for responsible AI? (Select 3)",
+    opts:["Knowledgeability","Decisiveness","Inclusiveness","Fairness","Reliability and safety"],
+    ans:[2,3,4], multi:true, exp:"Microsoft's six Responsible AI principles are: Fairness, Reliability & Safety, Privacy & Security, Inclusiveness, Transparency, and Accountability. Knowledgeability and Decisiveness are not included."
+  },
+  {
+    id:106, cat:"responsible-ai", domain:"Responsible AI",
+    q:"The handling of unusual or missing values provided to an AI system is a consideration for which Microsoft principle for responsible AI?",
+    opts:["Transparency","Inclusiveness","Fairness","Privacy and security","Reliability and safety"],
+    ans:[4], exp:"Reliability and Safety covers how AI systems behave with unexpected inputs, edge cases, and missing values — ensuring consistent, safe operation."
+  },
+  {
+    id:107, cat:"responsible-ai", domain:"Responsible AI",
+    q:"You are designing an AI system that empowers everyone, including people who have hearing, visual, and other impairments. This is an example of which Microsoft guiding principle?",
+    opts:["Transparency","Inclusiveness","Fairness","Privacy and security"],
+    ans:[1], exp:"Inclusiveness means designing AI to empower and serve all people, including those with disabilities."
+  },
+  {
+    id:108, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Fairness is Microsoft's principle of responsible AI which says that AI systems should not reflect biases from the data sets that are used to train the systems.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — the Fairness principle requires that AI systems treat all people equitably and avoid perpetuating biases that may be present in training data."
+  },
+  {
+    id:109, cat:"responsible-ai", domain:"Responsible AI",
+    q:"When developing an AI system for self-driving cars, which Microsoft principle for responsible AI should be applied to ensure consistent operation during unexpected circumstances?",
+    opts:["Inclusiveness","Fairness","Validity","Reliability and safety"],
+    ans:[3], exp:"Reliability and Safety ensures AI systems operate consistently and safely, especially in unexpected situations — critical for self-driving cars."
+  },
+  {
+    id:110, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Which Responsible AI principle requires that automated decision-making processes be recorded so that approved users can identify why a decision was made?",
+    opts:["Fairness","Privacy and Security","Reliability and Safety","Transparency"],
+    ans:[3], exp:"Transparency requires that AI decisions be explainable and traceable — stakeholders should be able to understand and audit how and why decisions were made."
+  },
+  {
+    id:111, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Which Responsible AI principle requires that personal data must be visible only to approved parties?",
+    opts:["Fairness","Privacy and Security","Reliability and Safety","Transparency"],
+    ans:[1], exp:"Privacy and Security ensures that personal and sensitive data is protected and visible only to authorized parties."
+  },
+  {
+    id:112, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Which Responsible AI principle requires that the AI system must not discriminate based on gender and race?",
+    opts:["Fairness","Privacy and Security","Reliability and Safety","Transparency"],
+    ans:[0], exp:"Fairness ensures AI systems treat all people equitably, without discrimination based on gender, race, age, disability, or other protected characteristics."
+  },
+  {
+    id:113, cat:"responsible-ai", domain:"Responsible AI",
+    q:"You are building an AI-based app. You need to ensure that the app uses the principles for responsible AI. Which two principles should you follow?",
+    opts:["Implement an Agile software development methodology","Implement a process of AI model validation as part of the software review process","Establish a risk governance committee that includes members of the legal team, risk management team, and a privacy officer","Prevent the disclosure of the use of AI-based algorithms for automated decision making"],
+    ans:[1,2], multi:true, exp:"Validating AI models as part of review (accountability/reliability) and establishing governance structures with legal/risk teams (accountability) are Responsible AI practices."
+  },
+  {
+    id:114, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Which of the following is NOT one of Microsoft's six Responsible AI principles?",
+    opts:["Fairness","Reliability and Safety","Profitability","Transparency"],
+    ans:[2], exp:"Microsoft's six principles are: Fairness, Reliability & Safety, Privacy & Security, Inclusiveness, Transparency, and Accountability. Profitability is not one of them."
+  },
+  {
+    id:115, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Which following are NOT Microsoft guiding principles for responsible AI? (Select 2)",
+    opts:["Knowledgeability","Decisiveness","Inclusiveness","Fairness","Validity"],
+    ans:[0,4], multi:true, exp:"Knowledgeability and Validity are not Microsoft Responsible AI principles. The six principles are Fairness, Reliability & Safety, Privacy & Security, Inclusiveness, Transparency, and Accountability."
+  },
+
+  // ============================================================
+  // ADDITIONAL AI-900 QUESTIONS
+  // ============================================================
+  {
+    id:116, cat:"ml", domain:"Machine Learning",
+    q:"In Azure ML Designer, which module learns patterns in data to create a mathematical function that can be used for prediction?",
+    opts:["Score Model","Train Model","Evaluate Model","Split Data"],
+    ans:[1], exp:"The Train Model module takes a dataset and an algorithm module as input, learns from the data, and outputs a trained model."
+  },
+  {
+    id:117, cat:"ml", domain:"Machine Learning",
+    q:"What does 'overfitting' mean in machine learning?",
+    opts:["The model is too simple and fails to capture patterns in training data","The model learns the training data too well, including noise, and performs poorly on new data","The model takes too long to train","The model uses too many features"],
+    ans:[1], exp:"Overfitting occurs when a model memorizes training data (including noise) rather than learning general patterns, leading to poor performance on new data."
+  },
+  {
+    id:118, cat:"ml", domain:"Machine Learning",
+    q:"Which Azure Machine Learning compute target is best suited for training deep learning models on large datasets?",
+    opts:["Azure Machine Learning compute cluster","Azure Container Instances","Azure Kubernetes Service","Local compute"],
+    ans:[0], exp:"Azure ML Compute Clusters can scale to multiple GPU/CPU nodes, making them ideal for training deep learning models on large datasets."
+  },
+  {
+    id:119, cat:"computer-vision", domain:"Computer Vision",
+    q:"What is semantic segmentation in computer vision?",
+    opts:["Detecting individual objects and drawing boxes around them","Classifying every pixel in an image into a category","Recognizing text in images","Identifying the overall subject of an image"],
+    ans:[1], exp:"Semantic segmentation classifies every pixel in an image, identifying which category each pixel belongs to (e.g., sky, road, person, car)."
+  },
+  {
+    id:120, cat:"nlp", domain:"Natural Language Processing",
+    q:"Which NLP task involves identifying the overall meaning or purpose behind a user's statement?",
+    opts:["Sentiment analysis","Language detection","Intent recognition","Entity extraction"],
+    ans:[2], exp:"Intent recognition identifies what the user wants to do or achieve with their statement — a core component of conversational AI systems."
+  },
+  {
+    id:121, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which Azure service provides a search index that can include AI-enriched fields like image captions, extracted text, and key phrases?",
+    opts:["Azure SQL Database","Azure Cognitive Search","Azure Blob Storage","Azure Data Factory"],
+    ans:[1], exp:"Azure Cognitive Search can build indexes enriched with AI capabilities like OCR, image captioning, entity extraction, and key phrase extraction."
+  },
+  {
+    id:122, cat:"ml", domain:"Machine Learning",
+    q:"What is the purpose of cross-validation in machine learning?",
+    opts:["To train multiple models on different datasets","To estimate model performance by using multiple train/test splits of the same dataset","To validate that the model architecture is correct","To cross-check the feature engineering steps"],
+    ans:[1], exp:"Cross-validation (e.g., k-fold) provides a more robust estimate of model performance by splitting the data multiple ways and averaging results."
+  },
+  {
+    id:123, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which Azure AI Vision feature can identify whether an image contains adult, racy, or gory content?",
+    opts:["Image tagging","Smart crops","Content moderation","Object detection"],
+    ans:[2], exp:"Azure AI Vision has a content moderation capability that can flag images containing adult, racy, or violent/gory content."
+  },
+  {
+    id:124, cat:"nlp", domain:"Natural Language Processing",
+    q:"You need to build a system that can understand commands like 'Turn on the living room lights.' What component identifies 'living room' as the location entity?",
+    opts:["Sentiment analysis","Intent recognition","Entity extraction","Language detection"],
+    ans:[2], exp:"Entity extraction (named entity recognition) identifies specific pieces of information in text — like 'living room' as a location entity."
+  },
+  {
+    id:125, cat:"responsible-ai", domain:"Responsible AI",
+    q:"An AI system makes a medical diagnosis. A doctor disputes the result. The AI development team can identify who approved the AI for deployment and what testing was done. This is an example of which Responsible AI principle?",
+    opts:["Fairness","Accountability","Inclusiveness","Transparency"],
+    ans:[1], exp:"Accountability means that people and organizations are responsible for AI systems and their impacts. Having clear records of approvals and testing exemplifies accountability."
+  },
+  {
+    id:126, cat:"ml", domain:"Machine Learning",
+    q:"In a confusion matrix for a binary classifier, what does 'False Positive' (FP) represent?",
+    opts:["The model correctly predicted the positive class","The model predicted positive but the actual label was negative","The model predicted negative but the actual label was positive","The model correctly predicted the negative class"],
+    ans:[1], exp:"A False Positive occurs when the model predicts 'positive' (e.g., disease present) but the actual outcome is 'negative' (no disease). Also called a Type I error."
+  },
+  {
+    id:127, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which Azure AI service would you use to extract structured data from an invoice, including vendor name, invoice total, and line items?",
+    opts:["Computer Vision","Custom Vision","Form Recognizer","Text Analytics"],
+    ans:[2], exp:"Form Recognizer (Azure AI Document Intelligence) has pre-built models for invoices that extract structured fields like vendor name, invoice date, line items, and totals."
+  },
+  {
+    id:128, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"What is the primary purpose of Azure Cognitive Search's 'indexer'?",
+    opts:["To train machine learning models","To automatically extract and index content from data sources","To deploy AI models as web services","To manage user authentication"],
+    ans:[1], exp:"An indexer in Azure Cognitive Search automatically pulls content from data sources (Blob Storage, SQL, Cosmos DB, etc.) and populates the search index."
+  },
+  {
+    id:129, cat:"nlp", domain:"Natural Language Processing",
+    q:"You need to identify the language of customer feedback submitted from various countries. Which Azure Language feature should you use?",
+    opts:["Sentiment analysis","Key phrase extraction","Language detection","Entity recognition"],
+    ans:[2], exp:"Language detection identifies which language a piece of text is written in, returning the language name, ISO code, and confidence score."
+  },
+  {
+    id:130, cat:"conversational", domain:"Conversational AI",
+    q:"Which of the following describes a 'multi-turn' conversation in bot development?",
+    opts:["A conversation where the bot only responds once","A conversation where the bot maintains context across multiple exchanges to complete a task","A conversation that involves multiple bots","A conversation where the user types multiple questions in one message"],
+    ans:[1], exp:"Multi-turn conversations allow the bot to maintain context across several exchanges, enabling it to gather information progressively and complete complex tasks."
+  },
+  {
+    id:131, cat:"responsible-ai", domain:"Responsible AI",
+    q:"An AI system used for hiring is tested across different demographic groups to ensure it recommends qualified candidates regardless of gender or ethnicity. Which Responsible AI principle does this testing address?",
+    opts:["Reliability and Safety","Transparency","Fairness","Accountability"],
+    ans:[2], exp:"Testing for bias across demographic groups ensures the AI treats all groups equitably — this is the Fairness principle in action."
+  },
+  {
+    id:132, cat:"ml", domain:"Machine Learning",
+    q:"Which metric measures the proportion of actual positives correctly identified by a classification model?",
+    opts:["Precision","Recall","F1 Score","Accuracy"],
+    ans:[1], exp:"Recall (sensitivity) = TP / (TP + FN). It measures what proportion of actual positive cases the model correctly identified."
+  },
+  {
+    id:133, cat:"ml", domain:"Machine Learning",
+    q:"What is the F1 score in model evaluation?",
+    opts:["The average of accuracy and AUC","The harmonic mean of precision and recall","The ratio of true positives to total predictions","The sum of precision and recall divided by 2"],
+    ans:[1], exp:"F1 Score = 2 × (Precision × Recall) / (Precision + Recall). It's the harmonic mean, balancing both precision and recall."
+  },
+  {
+    id:134, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which Computer Vision feature would you use to automatically generate a text description of an image for accessibility purposes?",
+    opts:["Object detection","Image tagging","Image captioning (Describe)","OCR"],
+    ans:[2], exp:"The Describe/Caption feature of Computer Vision generates a natural language description of an image, making it useful for accessibility applications."
+  },
+  {
+    id:135, cat:"nlp", domain:"Natural Language Processing",
+    q:"You are building a solution that needs to convert spoken customer queries into text for further processing. Which Azure service should you use?",
+    opts:["Azure Text Analytics","Azure Speech-to-Text","Azure Translator","Azure Language Understanding"],
+    ans:[1], exp:"Azure Speech-to-Text (part of Azure AI Speech service) converts audio speech into text that can then be processed by other services."
+  },
+  {
+    id:136, cat:"nlp", domain:"Natural Language Processing",
+    q:"Which Azure service can convert text into natural-sounding spoken audio?",
+    opts:["Azure Speech-to-Text","Azure Text-to-Speech","Azure Translator","Azure Language service"],
+    ans:[1], exp:"Azure Text-to-Speech (part of Azure AI Speech service) converts written text into natural-sounding synthetic speech."
+  },
+  {
+    id:137, cat:"responsible-ai", domain:"Responsible AI",
+    q:"An AI model is deployed to determine credit scores. The model's training data, validation methods, and decision factors are documented and available for audit. Which Responsible AI principle does this reflect?",
+    opts:["Inclusiveness","Fairness","Transparency","Reliability and Safety"],
+    ans:[2], exp:"Transparency requires that AI systems be explainable and auditable — documenting training data, methods, and decision factors supports transparency."
+  },
+  {
+    id:138, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which of the following best describes 'machine learning'?",
+    opts:["Programming a computer with explicit rules for every possible situation","Using algorithms that learn patterns from data to make predictions or decisions","Creating animated avatars that simulate human behavior","Designing hardware components that mimic the human brain physically"],
+    ans:[1], exp:"Machine learning enables computers to learn from data and improve performance over time without being explicitly programmed for each scenario."
+  },
+  {
+    id:139, cat:"ml", domain:"Machine Learning",
+    q:"What is 'label' in the context of supervised machine learning?",
+    opts:["The name given to a machine learning model","The output variable that the model is trained to predict","A feature used as input to the model","A unique identifier for each row of training data"],
+    ans:[1], exp:"In supervised learning, the label is the known output value that the model is trained to predict. It's what we're trying to learn to predict."
+  },
+  {
+    id:140, cat:"computer-vision", domain:"Computer Vision",
+    q:"You need to count the number of people in a crowd in a video feed. Which Azure AI service and feature would be most appropriate?",
+    opts:["Form Recognizer with receipt model","Computer Vision with object detection (person detection)","Custom Vision with image classification","Face service with verification"],
+    ans:[1], exp:"Computer Vision's object detection capability can detect and count people in images. For video, Azure Video Indexer is also an option."
+  },
+  {
+    id:141, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which of the following is an example of anomaly detection?",
+    opts:["Predicting house prices based on size and location","Identifying unusual transaction patterns that might indicate fraud","Categorizing customer emails by topic","Generating product descriptions from image data"],
+    ans:[1], exp:"Anomaly detection identifies unusual patterns that deviate from expected behavior — detecting unusual transactions is a classic anomaly detection use case."
+  },
+  {
+    id:142, cat:"nlp", domain:"Natural Language Processing",
+    q:"In LUIS/Conversational Language Understanding, what are 'intents'?",
+    opts:["The set of entities that can be extracted from utterances","Categories that represent what the user wants to do or achieve","The training examples used to build the model","The set of possible bot responses"],
+    ans:[1], exp:"Intents represent the purpose or goal behind a user's utterance. For example, 'BookFlight', 'GetWeather', or 'CancelOrder'."
+  },
+  {
+    id:143, cat:"ml", domain:"Machine Learning",
+    q:"Which Azure ML feature automatically tries multiple algorithms and hyperparameters to find the best model for your data?",
+    opts:["Azure ML Designer","Automated ML (AutoML)","Azure ML Notebooks","Azure ML Pipelines"],
+    ans:[1], exp:"Automated ML (AutoML) automatically iterates through multiple algorithms and hyperparameter combinations to find the best-performing model."
+  },
+  {
+    id:144, cat:"conversational", domain:"Conversational AI",
+    q:"What does the Azure Bot Service 'Direct Line' channel allow?",
+    opts:["Direct database queries from the bot","Integration of the bot into custom applications and websites","Voice calls through the bot","Email responses from the bot"],
+    ans:[1], exp:"Direct Line is a secure channel that allows you to embed a bot into your own custom application or website using the Direct Line API."
+  },
+  {
+    id:145, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Which statement best describes the 'Privacy and Security' principle of Microsoft's Responsible AI?",
+    opts:["AI should treat all people fairly regardless of demographic characteristics","AI should be secure from adversarial attacks only","AI should respect privacy rights and handle personal data with appropriate protections","AI should be transparent about its decision-making"],
+    ans:[2], exp:"Privacy and Security ensures AI systems are designed to protect personal data, comply with privacy regulations, and be secure against unauthorized access."
+  },
+  {
+    id:146, cat:"ml", domain:"Machine Learning",
+    q:"You have a dataset with 10,000 rows and want to train a classification model. You split it 80/20. How many rows are in the training set?",
+    opts:["2,000","8,000","10,000","5,000"],
+    ans:[1], exp:"80% of 10,000 = 8,000 rows for training. The remaining 20% = 2,000 rows for testing/validation."
+  },
+  {
+    id:147, cat:"computer-vision", domain:"Computer Vision",
+    q:"What does the Azure AI Vision 'Smart Crops' feature do?",
+    opts:["Automatically removes the background from images","Identifies crop diseases in agricultural images","Intelligently crops images to different aspect ratios while keeping the main subject in focus","Enhances the color quality of images"],
+    ans:[2], exp:"Smart Crops (Thumbnail generation) uses saliency detection to intelligently crop images to specified aspect ratios while keeping important content centered."
+  },
+  {
+    id:148, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which Azure service is used to analyze video content to extract insights like transcripts, face detection, labels, and scene detection?",
+    opts:["Custom Vision","Computer Vision","Azure Video Indexer","Form Recognizer"],
+    ans:[2], exp:"Azure Video Indexer (AI Video Intelligence) analyzes video content to automatically extract insights including transcripts, face recognition, labels, and keyframes."
+  },
+  {
+    id:149, cat:"nlp", domain:"Natural Language Processing",
+    q:"Which Azure service would you use to translate spoken language in real-time during a conference call?",
+    opts:["Azure Language Understanding","Azure Speech Translation","Azure Text Analytics","Azure QnA Maker"],
+    ans:[1], exp:"Azure Speech Translation (part of Azure AI Speech service) provides real-time speech-to-speech or speech-to-text translation."
+  },
+  {
+    id:150, cat:"ml", domain:"Machine Learning",
+    q:"What is 'precision' in the context of a classification model?",
+    opts:["The proportion of all actual positives that were correctly identified","The proportion of predicted positives that are actually positive","The overall percentage of correct predictions","The harmonic mean of precision and recall"],
+    ans:[1], exp:"Precision = TP / (TP + FP). It measures how many of the model's positive predictions were actually correct — useful when false positives are costly."
+  },
+  {
+    id:151, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"JSON data object is used to indicate the recording pattern of the data.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — in Azure Cognitive Search and AI services, JSON is used as the data format to define and store document structures and recording patterns."
+  },
+  {
+    id:152, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"XML data format is accepted by Azure Cognitive Search when you are pushing data to the index.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — Azure Cognitive Search requires data to be pushed in JSON format. XML is not a supported format for indexing."
+  },
+  {
+    id:153, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"You can query a search index even if you set up a search index without including any AI skillsets.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — AI skillsets are optional in Azure Cognitive Search. You can create and query a basic search index without any AI enrichment."
+  },
+  {
+    id:154, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"What is a correct explanation of an indexer and an index in Azure Cognitive Search?",
+    opts:["Azure's indexer exports incoming documents into JSON and pushes the JSON to an index for storage","Azure's indexer can be used instead of an index if the files are already in the proper format","Azure's indexer is only used to implement a knowledge store"],
+    ans:[0], exp:"An indexer extracts content from data sources, transforms it (with optional AI enrichment), converts it to JSON, and pushes it to the search index."
+  },
+  {
+    id:155, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Specifying granularity in a JSON data object is used to indicate the recording pattern of the data.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — specifying granularity in JSON objects (like in Azure Cognitive Search skillsets) defines the recording pattern and scope of data processing."
+  },
+  {
+    id:156, cat:"ml", domain:"Machine Learning",
+    q:"You have a dataset about taxi journeys that includes trip distance and fare amount. To predict fare, what should you use as a feature?",
+    opts:["The number of taxi journeys in the dataset","The trip distance of individual taxi journeys","The fare of individual taxi journeys","The trip ID of individual taxi journeys"],
+    ans:[1], exp:"Trip distance is a relevant predictive feature for fare. Fare is the label (what we're predicting). Trip ID is an identifier with no predictive value."
+  },
+  {
+    id:157, cat:"ml", domain:"Machine Learning",
+    q:"Automated machine learning provides you with the ability to visually connect datasets and modules on an interactive canvas.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — visual canvas with drag-and-drop modules is a feature of Azure ML Designer, not Automated ML. AutoML automates algorithm selection and training."
+  },
+  {
+    id:158, cat:"ml", domain:"Machine Learning",
+    q:"Automated machine learning is the process of automating the time-consuming, iterative tasks of machine learning model development.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — AutoML automates feature engineering, algorithm selection, hyperparameter tuning, and model evaluation."
+  },
+  {
+    id:159, cat:"ml", domain:"Machine Learning",
+    q:"Automated machine learning can automatically infer the training data from the use case provided.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — you must still provide the training dataset to AutoML. It does not automatically source or infer training data."
+  },
+  {
+    id:160, cat:"ml", domain:"Machine Learning",
+    q:"Automated machine learning enables you to specify a dataset and will automatically understand which label to predict.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — you must specify which column is the target label. AutoML does not automatically determine what to predict."
+  },
+  {
+    id:161, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Azure Machine Learning designer provides a drag-and-drop visual canvas to build, test, and deploy machine learning models.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — Azure ML Designer offers a visual, drag-and-drop interface for creating ML pipelines without extensive coding."
+  },
+  {
+    id:162, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Azure Machine Learning designer enables you to save your progress as a pipeline draft.",
+    opts:["Yes","No"],
+    ans:[0], exp:"True — Azure ML Designer allows you to save in-progress work as pipeline drafts, so you can continue building later."
+  },
+  {
+    id:163, cat:"ml", domain:"Machine Learning",
+    q:"Azure Machine Learning designer enables you to include custom JavaScript functions.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — Azure ML Designer supports Python scripts via the 'Execute Python Script' module, but not JavaScript functions."
+  },
+  {
+    id:164, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Automated machine learning provides you with the ability to include custom Python scripts in a training pipeline.",
+    opts:["Yes","No"],
+    ans:[1], exp:"False — including custom Python scripts in a visual pipeline is a feature of Azure ML Designer. AutoML automates model selection without custom scripting."
+  },
+  {
+    id:165, cat:"nlp", domain:"Natural Language Processing",
+    q:"You need to build a service that will detect topics in documents and categorize the documents by topic. Which Azure AI service should you use?",
+    opts:["Form Recognizer","Language service with key phrase extraction","Computer Vision","QnA Maker"],
+    ans:[1], exp:"Key phrase extraction from Azure Language service identifies the main topics in documents, which can be used for categorization."
+  },
+  {
+    id:166, cat:"computer-vision", domain:"Computer Vision",
+    q:"You are building a quality control system that needs to identify whether manufactured parts have surface defects. Which Azure service and approach is most appropriate?",
+    opts:["Azure Language service with entity recognition","Custom Vision with image classification (defective vs non-defective)","Azure Form Recognizer with invoice model","Azure Bot Service"],
+    ans:[1], exp:"Custom Vision trained with images of defective and non-defective parts can classify new images as defective or not — a binary image classification task."
+  },
+  {
+    id:167, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"What is the role of an 'AI skillset' in Azure Cognitive Search?",
+    opts:["It defines the authentication rules for the search index","It is a collection of AI enrichment steps that process documents during indexing","It specifies which users can access the search results","It compresses data before storing it in the index"],
+    ans:[1], exp:"An AI skillset in Azure Cognitive Search is a pipeline of cognitive skills (OCR, entity extraction, language detection, etc.) applied to documents during indexing."
+  },
+  {
+    id:168, cat:"ml", domain:"Machine Learning",
+    q:"In an Azure ML Designer pipeline, which module is used to compare predictions from the trained model against actual labels?",
+    opts:["Train Model","Score Model","Evaluate Model","Split Data"],
+    ans:[2], exp:"The Evaluate Model module compares the Score Model output (predictions) against actual labels and computes metrics like accuracy, AUC, and F1 score."
+  },
+  {
+    id:169, cat:"conversational", domain:"Conversational AI",
+    q:"Which of the following best describes a 'waterfall dialog' in Azure Bot Framework?",
+    opts:["A dialog that runs indefinitely in a loop","A linear sequence of steps that guides the user through a task","A dialog triggered by specific keywords","A dialog that connects multiple bots together"],
+    ans:[1], exp:"A waterfall dialog in Bot Framework SDK is a series of steps that execute sequentially to guide the user through a structured conversation flow."
+  },
+  {
+    id:170, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Which Microsoft Responsible AI principle addresses the need for humans to oversee and correct AI systems?",
+    opts:["Fairness","Inclusiveness","Accountability","Reliability and Safety"],
+    ans:[2], exp:"Accountability ensures that humans remain responsible for AI systems, with appropriate oversight mechanisms so errors can be identified and corrected."
+  },
+  {
+    id:171, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which Azure AI service can detect the emotions on faces in an image?",
+    opts:["Computer Vision","Custom Vision","Face API","Form Recognizer"],
+    ans:[2], exp:"The Face API (Azure AI Face service) can detect facial attributes including emotional expressions like happiness, sadness, anger, surprise, etc."
+  },
+  {
+    id:172, cat:"nlp", domain:"Natural Language Processing",
+    q:"Identifying the relationship between the entities 'Elon Musk' and 'Tesla' as founder/company is an example of:",
+    opts:["Sentiment analysis","Entity linking","Relationship/entity extraction","Language detection"],
+    ans:[2], exp:"Extracting relationships between entities (like a person founding a company) is a form of relation extraction in NLP."
+  },
+  {
+    id:173, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"A retailer wants to recommend products to customers based on their purchase history. Which AI workload type does this represent?",
+    opts:["Anomaly detection","Knowledge mining","Recommendation system","Computer vision"],
+    ans:[2], exp:"Product recommendations based on purchase history are generated by recommendation systems — a common AI workload in retail and e-commerce."
+  },
+  {
+    id:174, cat:"ml", domain:"Machine Learning",
+    q:"What is 'hyperparameter tuning' in machine learning?",
+    opts:["Adjusting the training data to improve model performance","Selecting the optimal values for model configuration parameters before training","Removing features from the dataset","Splitting data into more subsets for better evaluation"],
+    ans:[1], exp:"Hyperparameters are configuration settings set before training (e.g., learning rate, number of trees). Tuning finds the values that produce the best model."
+  },
+  {
+    id:175, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which Computer Vision operation would you call to determine if an image is safe to display in a family-friendly application?",
+    opts:["Detect operation","Describe operation","Analyze Image with adult content detection","Smart Crops operation"],
+    ans:[2], exp:"Analyze Image with the adult/racy category enabled returns confidence scores for adult and racy content, allowing you to filter inappropriate images."
+  },
+  {
+    id:176, cat:"conversational", domain:"Conversational AI",
+    q:"You need to build a bot that can be accessed from Microsoft Teams, a website, and a mobile app. What Azure service manages the multi-channel delivery?",
+    opts:["QnA Maker","Azure Language Understanding","Azure Bot Service","Azure Cognitive Search"],
+    ans:[2], exp:"Azure Bot Service provides channel management, allowing the same bot to be deployed across multiple platforms including Teams, Web Chat, Slack, and mobile apps."
+  },
+  {
+    id:177, cat:"nlp", domain:"Natural Language Processing",
+    q:"Which feature of Azure Language service would you use to identify mentions of specific products, people, or places in customer reviews?",
+    opts:["Sentiment analysis","Language detection","Key phrase extraction","Named Entity Recognition (NER)"],
+    ans:[3], exp:"Named Entity Recognition (NER) identifies and categorizes specific entities (products, people, places, dates, etc.) mentioned in text."
+  },
+  {
+    id:178, cat:"responsible-ai", domain:"Responsible AI",
+    q:"A team uses Azure ML's model interpretability features to explain which features most influenced a credit decision. Which principle does this support?",
+    opts:["Inclusiveness","Reliability and Safety","Transparency","Fairness"],
+    ans:[2], exp:"Using interpretability features to explain AI decisions supports Transparency — enabling stakeholders to understand how and why a decision was made."
+  },
+  {
+    id:179, cat:"ml", domain:"Machine Learning",
+    q:"What is the main difference between supervised and unsupervised learning?",
+    opts:["Supervised learning requires more data than unsupervised learning","Supervised learning uses labeled data to learn mappings; unsupervised learning finds patterns in unlabeled data","Unsupervised learning is always more accurate","Supervised learning can only be used for classification tasks"],
+    ans:[1], exp:"Supervised learning trains on labeled data (input-output pairs) to learn a mapping. Unsupervised learning discovers patterns, clusters, or structure in unlabeled data."
+  },
+  {
+    id:180, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which Azure AI service would you use to automatically detect objects in satellite images and track changes over time?",
+    opts:["Azure Language service","Azure Computer Vision (custom model or Custom Vision)","Azure Form Recognizer","Azure Bot Service"],
+    ans:[1], exp:"Computer Vision or Custom Vision can be used to detect and classify objects in satellite imagery, with custom models trained on domain-specific data."
+  },
+  {
+    id:181, cat:"ml", domain:"Machine Learning",
+    q:"In Azure ML, what is a 'pipeline'?",
+    opts:["A network connection between compute resources","A workflow of interconnected steps for preparing data, training, and evaluating ML models","A type of neural network architecture","A method of encrypting model weights"],
+    ans:[1], exp:"An Azure ML pipeline is a reusable workflow of machine learning steps (data prep, feature engineering, training, evaluation) that can be run, versioned, and automated."
+  },
+  {
+    id:182, cat:"computer-vision", domain:"Computer Vision",
+    q:"Which Azure service would you use to transcribe speech from a video recording into text, detect faces, and label visual content?",
+    opts:["Azure Form Recognizer","Azure Video Indexer","Azure Custom Vision","Azure Language service"],
+    ans:[1], exp:"Azure Video Indexer provides comprehensive video analysis including speech transcription, face detection, emotion recognition, visual content labeling, and more."
+  },
+  {
+    id:183, cat:"nlp", domain:"Natural Language Processing",
+    q:"What does 'tokenization' mean in NLP?",
+    opts:["Encrypting text for security","Breaking text into individual words, subwords, or characters for processing","Converting text to audio","Translating text between languages"],
+    ans:[1], exp:"Tokenization splits text into smaller units called tokens (words, subwords, or characters) that ML models can process numerically."
+  },
+  {
+    id:184, cat:"responsible-ai", domain:"Responsible AI",
+    q:"An AI system for resume screening consistently rates candidates from certain universities higher, regardless of their qualifications. This is a violation of which Responsible AI principle?",
+    opts:["Reliability and Safety","Fairness","Transparency","Accountability"],
+    ans:[1], exp:"Systematically favoring certain groups over others violates the Fairness principle — AI should treat all people equitably without bias."
+  },
+  {
+    id:185, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which of the following is an example of content moderation using AI?",
+    opts:["Predicting stock prices using historical market data","Automatically detecting and flagging hate speech in social media posts","Generating personalized travel recommendations","Identifying manufacturing defects in product images"],
+    ans:[1], exp:"Content moderation uses AI to detect inappropriate content (hate speech, violence, adult content) in user-generated content — a key AI safety application."
+  },
+  {
+    id:186, cat:"ml", domain:"Machine Learning",
+    q:"Which Azure ML Designer module would you use to handle missing values in a dataset?",
+    opts:["Normalize Data","Clean Missing Data","Select Columns in a Dataset","Convert to Dataset"],
+    ans:[1], exp:"The Clean Missing Data module handles missing values through various strategies like removing rows, replacing with mean/median, or custom substitutions."
+  },
+  {
+    id:187, cat:"nlp", domain:"Natural Language Processing",
+    q:"Azure AI Translator supports translation between how many languages?",
+    opts:["Around 10","Around 30","More than 100","Exactly 50"],
+    ans:[2], exp:"Azure AI Translator supports translation across more than 100 languages and dialects, making it one of the most comprehensive translation services available."
+  },
+  {
+    id:188, cat:"computer-vision", domain:"Computer Vision",
+    q:"What is the difference between image classification and object detection?",
+    opts:["Image classification is faster; object detection is more accurate","Image classification assigns one label to the whole image; object detection identifies multiple objects and their locations","Image classification works on video; object detection works on images","Image classification requires custom training; object detection does not"],
+    ans:[1], exp:"Image classification assigns a single category to an entire image. Object detection identifies multiple objects within an image and returns their locations as bounding boxes."
+  },
+  {
+    id:189, cat:"conversational", domain:"Conversational AI",
+    q:"What is the purpose of 'entities' in Conversational Language Understanding?",
+    opts:["To define the list of possible bot responses","To identify specific pieces of information within user utterances","To specify which users can access the bot","To configure the bot's conversation channels"],
+    ans:[1], exp:"Entities extract specific, structured pieces of information from utterances — like dates, product names, cities, or quantities mentioned by the user."
+  },
+  {
+    id:190, cat:"responsible-ai", domain:"Responsible AI",
+    q:"Which of the following best practices supports the 'Reliability and Safety' principle when deploying AI models?",
+    opts:["Only deploying models without testing","Conducting extensive testing across diverse scenarios before deployment","Not documenting the model's limitations","Ignoring edge cases in training data"],
+    ans:[1], exp:"Extensive testing across diverse scenarios (including edge cases) before deployment ensures the model performs reliably and safely in real-world conditions."
+  },
+  {
+    id:191, cat:"ml", domain:"Machine Learning",
+    q:"In Azure Automated ML, what happens when you enable 'featurization'?",
+    opts:["The model automatically selects the best algorithm","AutoML automatically performs feature engineering tasks like imputation, encoding, and scaling","The training data is automatically downloaded from the cloud","The model is automatically deployed after training"],
+    ans:[1], exp:"Enabling featurization in AutoML allows it to automatically perform preprocessing tasks: handling missing values, encoding categorical features, normalizing numeric features, etc."
+  },
+  {
+    id:192, cat:"computer-vision", domain:"Computer Vision",
+    q:"What confidence level must a tag have to appear in the prediction results when using Custom Vision?",
+    opts:["Above 0%","Above 50%","Above 10% (or the configured threshold)","Exactly 100%"],
+    ans:[2], exp:"Custom Vision returns predictions with their probability scores. You set a probability threshold (default often 10-50%) to filter which predictions are surfaced."
+  },
+  {
+    id:193, cat:"ai-concepts", domain:"AI Workloads & Concepts",
+    q:"Which Azure service enables developers to add AI capabilities to applications without having deep ML expertise, using pre-built APIs?",
+    opts:["Azure Machine Learning Studio","Azure Cognitive Services (Azure AI Services)","Azure Databricks","Azure Synapse Analytics"],
+    ans:[1], exp:"Azure Cognitive Services (now Azure AI Services) provides pre-built APIs for vision, speech, language, and decision tasks that developers can use without ML expertise."
+  },
+  {
+    id:194, cat:"nlp", domain:"Natural Language Processing",
+    q:"Which Azure Language service feature helps identify personal information such as email addresses, phone numbers, or social security numbers in text?",
+    opts:["Sentiment analysis","Personally Identifiable Information (PII) detection","Key phrase extraction","Entity linking"],
+    ans:[1], exp:"PII (Personally Identifiable Information) detection in Azure Language service identifies and can redact sensitive personal information like emails, phone numbers, and IDs."
+  },
+  {
+    id:195, cat:"ml", domain:"Machine Learning",
+    q:"In the learning types, match: predict how many minutes late a flight will arrive based on snowfall. This is an example of:",
+    opts:["Regression","Classification","Clustering"],
+    ans:[0], exp:"Predicting a continuous numeric value (minutes late) based on input features (snowfall amount) is a regression task."
+  },
+  {
+    id:196, cat:"ml", domain:"Machine Learning",
+    q:"In the learning types, match: segment customers into different groups to support a marketing department. This is an example of:",
+    opts:["Regression","Classification","Clustering"],
+    ans:[2], exp:"Grouping customers into segments without predefined labels is unsupervised clustering."
+  },
+  {
+    id:197, cat:"ml", domain:"Machine Learning",
+    q:"In the learning types, match: predict whether a student will complete a university course. This is an example of:",
+    opts:["Regression","Classification","Clustering"],
+    ans:[1], exp:"Predicting a yes/no outcome (will complete / won't complete) is binary classification."
+  },
+  {
+    id:198, cat:"conversational", domain:"Conversational AI",
+    q:"In learning types for conversational AI: 'An automated chat to answer questions about refunds and exchange' is an example of:",
+    opts:["Anomaly detection","Computer vision","Conversational AI","Knowledge mining","Natural language processing"],
+    ans:[2], exp:"An automated chat system that answers questions is Conversational AI — using bots and NLP to interact with users in natural language."
+  },
+  {
+    id:199, cat:"computer-vision", domain:"Computer Vision",
+    q:"'Determining whether a photo contains a person' is an example of which AI workload?",
+    opts:["Anomaly detection","Computer vision","Conversational AI","Knowledge mining","Natural language processing"],
+    ans:[1], exp:"Analyzing images to detect whether a person is present is Computer Vision — specifically person/object detection."
+  },
+  {
+    id:200, cat:"nlp", domain:"Natural Language Processing",
+    q:"'Determining whether a review is positive or negative' is an example of which AI workload?",
+    opts:["Anomaly detection","Computer vision","Conversational AI","Knowledge mining","Natural language processing"],
+    ans:[4], exp:"Classifying text reviews as positive or negative sentiment is Natural Language Processing — specifically sentiment analysis."
+  }
+];
+
+// ============================================================
+// QUIZ STATE
+// ============================================================
+let questions = [];
+let current = 0;
+let answers = [];
+let selectedMulti = [];
+let locked = false;
+let correctCount = 0;
+let wrongCount = 0;
+let skippedCount = 0;
+let wrongHistory = new Set();
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  const count = parseInt(document.getElementById('q-count').value);
+  const domain = document.getElementById('domain-filter').value;
+  const order = document.getElementById('order-filter').value;
+
+  let pool = [...QUESTIONS];
+  if (domain !== 'all') pool = pool.filter(q => q.cat === domain);
+  if (pool.length === 0) { showToast('No questions found for that domain!'); return; }
+
+  if (order === 'random') pool = shuffle(pool);
+  else if (order === 'wrong' && wrongHistory.size > 0) {
+    const wrong = pool.filter(q => wrongHistory.has(q.id));
+    const others = pool.filter(q => !wrongHistory.has(q.id));
+    pool = [...wrong, ...shuffle(others)];
+  }
+
+  questions = pool.slice(0, Math.min(count, pool.length));
+  answers = new Array(questions.length).fill(null);
+  current = 0; correctCount = 0; wrongCount = 0; skippedCount = 0;
+
+  document.getElementById('total-q-count').textContent = QUESTIONS.length + '+';
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('quiz-page').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (current >= questions.length) { endQuiz(); return; }
+  const q = questions[current];
+  selectedMulti = [];
+  locked = false;
+
+  // Update progress
+  const pct = Math.round((current / questions.length) * 100);
+  document.getElementById('prog-text').textContent = `Q ${current + 1} / ${questions.length}`;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('h-correct').textContent = correctCount;
+  document.getElementById('h-wrong').textContent = wrongCount;
+
+  // Category
+  document.getElementById('q-cat').textContent = '📂 ' + q.domain;
+  document.getElementById('q-num').textContent = `Question ${current + 1} of ${questions.length}`;
+  document.getElementById('q-text').textContent = q.q;
+
+  // Multi hint
+  const multiHint = document.getElementById('multi-hint');
+  if (q.multi) {
+    multiHint.style.display = 'block';
+    multiHint.textContent = `Select ${q.ans.length} correct answer${q.ans.length > 1 ? 's' : ''}, then click Submit`;
+  } else {
+    multiHint.style.display = 'none';
+  }
+
+  // Options
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  const labels = ['A','B','C','D','E','F'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-key">${labels[i]}</span><span class="opt-text">${opt}</span>`;
+    btn.onclick = () => handleOptionClick(i, btn);
+    grid.appendChild(btn);
+  });
+
+  // Feedback
+  const fb = document.getElementById('feedback-card');
+  fb.className = 'feedback-card';
+
+  // Buttons
+  document.getElementById('btn-next').style.display = 'none';
+  document.getElementById('btn-submit-multi').style.display = q.multi ? 'inline-flex' : 'none';
+}
+
+function handleOptionClick(idx, btn) {
+  if (locked) return;
+  const q = questions[current];
+
+  if (q.multi) {
+    // Toggle selection
+    if (selectedMulti.includes(idx)) {
+      selectedMulti = selectedMulti.filter(i => i !== idx);
+      btn.classList.remove('selected-multi');
+    } else {
+      selectedMulti.push(idx);
+      btn.classList.add('selected-multi');
+    }
+  } else {
+    // Single answer
+    locked = true;
+    const correct = q.ans[0] === idx;
+    const allBtns = document.querySelectorAll('.option-btn');
+    allBtns.forEach(b => b.classList.add('locked'));
+
+    if (correct) {
+      btn.classList.add('correct');
+      correctCount++;
+      showFeedback(true, q.exp);
+    } else {
+      btn.classList.add('wrong');
+      wrongCount++;
+      wrongHistory.add(q.id);
+      // Reveal correct
+      allBtns[q.ans[0]].classList.add('reveal-correct');
+      showFeedback(false, q.exp);
+    }
+    answers[current] = { selected: [idx], correct: q.ans[0] === idx };
+    document.getElementById('btn-next').style.display = 'inline-flex';
+    document.getElementById('h-correct').textContent = correctCount;
+    document.getElementById('h-wrong').textContent = wrongCount;
+  }
+}
+
+function submitMulti() {
+  if (locked) return;
+  const q = questions[current];
+  if (selectedMulti.length === 0) { showToast('Please select at least one answer!'); return; }
+
+  locked = true;
+  const correctSet = new Set(q.ans);
+  const selectedSet = new Set(selectedMulti);
+  const isCorrect = q.ans.every(a => selectedSet.has(a)) && selectedMulti.every(s => correctSet.has(s));
+
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.classList.add('locked'));
+
+  allBtns.forEach((btn, i) => {
+    if (correctSet.has(i) && selectedSet.has(i)) btn.classList.add('correct');
+    else if (!correctSet.has(i) && selectedSet.has(i)) btn.classList.add('wrong');
+    else if (correctSet.has(i)) btn.classList.add('reveal-correct');
+  });
+
+  if (isCorrect) { correctCount++; showFeedback(true, q.exp); }
+  else { wrongCount++; wrongHistory.add(q.id); showFeedback(false, q.exp); }
+
+  answers[current] = { selected: selectedMulti, correct: isCorrect };
+  document.getElementById('btn-next').style.display = 'inline-flex';
+  document.getElementById('btn-submit-multi').style.display = 'none';
+  document.getElementById('h-correct').textContent = correctCount;
+  document.getElementById('h-wrong').textContent = wrongCount;
+}
+
+function showFeedback(isCorrect, explanation) {
+  const fb = document.getElementById('feedback-card');
+  document.getElementById('fb-icon').textContent = isCorrect ? '✅' : '❌';
+  document.getElementById('fb-title').textContent = isCorrect ? 'Correct!' : 'Incorrect';
+  document.getElementById('fb-title').className = 'feedback-title ' + (isCorrect ? 'correct-t' : 'wrong-t');
+  document.getElementById('fb-body').textContent = explanation;
+  fb.classList.add('show');
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) { endQuiz(); return; }
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function skipQuestion() {
+  if (locked) { nextQuestion(); return; }
+  answers[current] = { selected: [], correct: false, skipped: true };
+  skippedCount++;
+  current++;
+  if (current >= questions.length) { endQuiz(); return; }
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function endQuiz() {
+  // Count remaining as skipped
+  for (let i = current; i < questions.length; i++) {
+    if (!answers[i]) {
+      answers[i] = { selected: [], correct: false, skipped: true };
+      skippedCount++;
+    }
+  }
+  showResults();
+}
+
+function showResults() {
+  document.getElementById('quiz-page').style.display = 'none';
+  document.getElementById('review-page').style.display = 'none';
+  document.getElementById('results-page').style.display = 'block';
+
+  const total = questions.length;
+  const pct = Math.round((correctCount / total) * 100);
+  const pass = pct >= 70;
+
+  document.getElementById('results-title').textContent = pass ? '🎉 Well Done!' : '📚 Keep Studying';
+  document.getElementById('res-sub').textContent = `You answered ${correctCount} of ${total} questions correctly.`;
+  document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('r-correct').textContent = correctCount;
+  document.getElementById('r-wrong').textContent = wrongCount;
+  document.getElementById('r-skipped').textContent = skippedCount;
+
+  const banner = document.getElementById('pass-banner');
+  if (pass) {
+    banner.className = 'pass-banner pass';
+    banner.textContent = '🏆 PASS — You scored above the 70% threshold!';
+  } else {
+    banner.className = 'pass-banner fail';
+    banner.textContent = `⚠ Not Yet — You need ${70 - pct}% more to reach the 70% pass mark.`;
+  }
+
+  // Animate ring
+  const circumference = 502;
+  const offset = circumference - (pct / 100) * circumference;
+  const circle = document.getElementById('score-circle');
+  circle.style.stroke = pass ? '#10b981' : pct > 50 ? '#f59e0b' : '#ef4444';
+  setTimeout(() => { circle.style.strokeDashoffset = offset; }, 100);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showReview() {
+  document.getElementById('results-page').style.display = 'none';
+  document.getElementById('review-page').style.display = 'block';
+
+  const list = document.getElementById('review-list');
+  list.innerHTML = '';
+  const labels = ['A','B','C','D','E','F'];
+
+  questions.forEach((q, i) => {
+    const a = answers[i];
+    const item = document.createElement('div');
+    const cls = !a || a.skipped ? 'r-skipped' : a.correct ? 'r-correct' : 'r-wrong';
+    item.className = `review-item ${cls}`;
+
+    let answerHTML = '<div class="ri-answers">';
+    q.opts.forEach((opt, j) => {
+      const isCorrect = q.ans.includes(j);
+      const wasSelected = a && a.selected && a.selected.includes(j);
+      let cls2 = '';
+      if (isCorrect) cls2 = 'y';
+      else if (wasSelected) cls2 = 'n';
+      else return;
+      answerHTML += `<div class="ri-ans ${cls2}">${labels[j]}: ${opt}${isCorrect ? ' ✓' : ' ✗ (your answer)'}</div>`;
+    });
+    answerHTML += '</div>';
+
+    const status = !a || a.skipped ? '⏭ Skipped' : a.correct ? '✅ Correct' : '❌ Wrong';
+    item.innerHTML = `
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.8rem;align-items:center;">
+        <span style="font-size:0.75rem;font-family:'DM Mono',monospace;color:var(--text-muted)">Q${i+1} · ${q.domain}</span>
+        <span style="font-size:0.8rem;font-family:'DM Mono',monospace;">${status}</span>
+      </div>
+      <div class="ri-q">${q.q}</div>
+      ${answerHTML}
+      <div style="margin-top:0.8rem;font-size:0.82rem;color:var(--text-muted);border-top:1px solid var(--border);padding-top:0.8rem;line-height:1.5;">💡 ${q.exp}</div>
+    `;
+    list.appendChild(item);
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Update total count display
+document.getElementById('total-q-count').textContent = QUESTIONS.length;
+</script>
+</body>
+</html>
